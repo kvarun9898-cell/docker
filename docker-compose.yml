@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: devopsdb
+
+    ports:
+      - "3306:3306"
+
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+    networks:
+      - devops-network
+
+  backend:
+    build: ./backend
+    container_name: backend
+
+    depends_on:
+      - mysql
+
+    ports:
+      - "5000:5000"
+
+    networks:
+      - devops-network
+
+    environment:
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASSWORD: root123
+      DB_NAME: devopsdb
+
+  frontend:
