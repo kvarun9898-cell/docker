@@ -1,6 +1,4 @@
-<<<<<<< HEAD
- stage('Login to Amazon ECR') {
-=======
+
 pipeline {
 
     agent any
