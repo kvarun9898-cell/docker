@@ -1,4 +1,50 @@
+<<<<<<< HEAD
  stage('Login to Amazon ECR') {
+=======
+pipeline {
+
+    agent any
+
+    environment {
+        AWS_REGION = 'ap-south-2'
+        ACCOUNT_ID = '577267183852'
+
+        ECR_REGISTRY = "${ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com"
+
+        ECR_BACKEND = "${ECR_REGISTRY}/backend:prod"
+        ECR_FRONTEND = "${ECR_REGISTRY}/frontend:prod"
+        ECR_MYSQL = "${ECR_REGISTRY}/mysql:8.0"
+    }
+
+    stages {
+
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/kvarun9898-cell/docker.git'
+            }
+        }
+
+        stage('Build Backend') {
+            steps {
+                sh 'docker build -t backend:prod ./docker/backend'
+            }
+        }
+
+        stage('Build Frontend') {
+            steps {
+                sh 'docker build -t frontend:prod ./docker/frontend'
+            }
+        }
+
+        stage('Pull MySQL Image') {
+            steps {
+                sh 'docker pull mysql:8.0'
+            }
+        }
+
+        stage('Login to Amazon ECR') {
+>>>>>>> 6d673c0 (Update Jenkinsfile)
             steps {
                 sh '''
                     aws ecr get-login-password --region ${AWS_REGION} | \
@@ -38,4 +84,7 @@
     }
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 6d673c0 (Update Jenkinsfile)
