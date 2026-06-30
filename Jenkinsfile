@@ -27,13 +27,13 @@ pipeline {
 
         stage('Build Backend') {
             steps {
-                sh 'docker build -t backend:prod ./docker/backend'
+                sh 'docker build -t backend:prod ./backend'
             }
         }
 
         stage('Build Frontend') {
             steps {
-                sh 'docker build -t frontend:prod ./docker/frontend'
+                sh 'docker build -t frontend:prod ./frontend'
             }
         }
 
@@ -44,7 +44,6 @@ pipeline {
         }
 
         stage('Login to Amazon ECR') {
->>>>>>> 6d673c0 (Update Jenkinsfile)
             steps {
                 sh '''
                     aws ecr get-login-password --region ${AWS_REGION} | \
@@ -84,7 +83,4 @@ pipeline {
     }
 }
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 6d673c0 (Update Jenkinsfile)
